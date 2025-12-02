@@ -230,3 +230,6 @@ fabric.properties
 
 # Dask
 dask-worker-space
+
+.hydra
+conf/config.yaml

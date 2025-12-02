@@ -1,0 +1,12 @@
+hydra:
+  job:
+    chdir: true  # to save objects in a working directory
+  run:
+    dir: .  # Disable Hydra's Directory Change
+
+random:
+  seed: 42
+
+
+data_folder: data/mts
+custom_datasets_file: ${data_folder}/synthetic/datasets.json

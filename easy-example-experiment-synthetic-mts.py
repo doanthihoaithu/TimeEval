@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from pathlib import Path
 from typing import Any, Dict
+import hydra
+from omegaconf import DictConfig, OmegaConf
 
 import numpy as np
 
@@ -27,18 +29,23 @@ def your_algorithm_function(
         return np.genfromtxt(data, delimiter=",", skip_header=1)[:,1:-1].mean(axis=1)
 
 
-def main() -> None:
-    dm = DatasetManager(data_folder=Path("data/mts"), custom_datasets_file= Path("data/mts/synthetic/datasets.json") ,create_if_missing=True)
+@hydra.main(config_path="conf", config_name="config.yaml")
+def main(cfg: DictConfig) -> None:
+    data_folder = cfg.data_folder
+    custom_datasets_file = cfg.custom_datasets_file
+    dm = DatasetManager(data_folder=Path(data_folder), custom_datasets_file= Path(custom_datasets_file) ,create_if_missing=True)
     datasets = dm.select()
     algorithms = [
         # list of algorithms which will be executed on the selected dataset(s)
+
         cblof(params=FixedParameters({"random_state": 42})),
-        cof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
-        lof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
-        hbos(params=FixedParameters({"n_bin": 10, "random_state": 42})),
-        copod(params=FixedParameters({'random_state': 42})),
-        torsk(params=FixedParameters({'random_state': 42})),
-        pcc(params=FixedParameters({'random_state': 42})),
+        # cof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        # lof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        # hbos(params=FixedParameters({"n_bin": 10, "random_state": 42})),
+        # copod(params=FixedParameters({'random_state': 42})),
+        # torsk(params=FixedParameters({'random_state': 42})),
+        # pcc(params=FixedParameters({'random_state': 42})),
+
         # autoencoder(params=FixedParameters({'random_state': 42})),
         # dae(params=FixedParameters({'random_state': 42})),
         # random_black_forest(params=FixedParameters({'train_window_size': 24, 'random_state': 42})),
