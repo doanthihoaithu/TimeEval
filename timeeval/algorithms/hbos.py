@@ -72,12 +72,19 @@ def hbos(params: Optional[ParameterConfig] = None, skip_pull: bool = False, time
     """
     return Algorithm(
         name="HBOS",
+        # main=DockerAdapter(
+        #     image_name="ghcr.io/timeeval/hbos",
+        #     tag="0.3.1",
+        #     skip_pull=skip_pull,
+        #     timeout=timeout,
+        #     group_privileges="akita",
+        # ),
         main=DockerAdapter(
-            image_name="ghcr.io/timeeval/hbos",
-            tag="0.3.1",
+            image_name="thudth/hbos_interpretability",
+            # tag="lastest",
             skip_pull=skip_pull,
             timeout=timeout,
-            group_privileges="akita",
+            # group_privileges="akita",
         ),
         preprocess=None,
         postprocess=None,

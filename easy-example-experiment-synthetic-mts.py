@@ -38,10 +38,10 @@ def main(cfg: DictConfig) -> None:
     algorithms = [
         # list of algorithms which will be executed on the selected dataset(s)
 
-        cblof(params=FixedParameters({"random_state": 42})),
+        # cblof(params=FixedParameters({"random_state": 42})),
         # cof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
         # lof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
-        # hbos(params=FixedParameters({"n_bin": 10, "random_state": 42})),
+        hbos(params=FixedParameters({"n_bin": 10, "random_state": 42, 'anomalyScorePerVarOutput': 'ranking.csv'})),
         # copod(params=FixedParameters({'random_state': 42})),
         # torsk(params=FixedParameters({'random_state': 42})),
         # pcc(params=FixedParameters({'random_state': 42})),
