@@ -37,7 +37,7 @@ _hbos_parameters: Dict[str, Dict[str, Any]] = {
 }
 
 
-def hbos(params: Optional[ParameterConfig] = None, skip_pull: bool = False, timeout: Optional[Duration] = None) -> Algorithm:
+def hbos_with_interpretability(params: Optional[ParameterConfig] = None, skip_pull: bool = False, timeout: Optional[Duration] = None) -> Algorithm:
     """HBOS
 
     Implementation of https://citeseerx.ist.psu.edu/viewdoc/citations;jsessionid=2B4E3FB2BB07448253B4D45C3DAC2E95?doi=10.1.1.401.5686.
@@ -73,11 +73,11 @@ def hbos(params: Optional[ParameterConfig] = None, skip_pull: bool = False, time
     return Algorithm(
         name="HBOS",
         main=DockerAdapter(
-            image_name="ghcr.io/timeeval/hbos",
-            tag="0.3.1",
+            image_name="thudth/hbos_interpretability",
+            # tag="lastest",
             skip_pull=skip_pull,
             timeout=timeout,
-            group_privileges="akita",
+            # group_privileges="akita",
         ),
         preprocess=None,
         postprocess=None,

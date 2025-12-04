@@ -28,6 +28,7 @@ from .generic_xgb import generic_xgb
 from .grammarviz3 import grammarviz3
 from .grammarviz3_multi import grammarviz3_multi
 from .hbos import hbos
+from .hbos_with_interpretability import hbos_with_interpretability
 from .health_esn import health_esn
 from .hif import hif
 from .hotsax import hotsax
