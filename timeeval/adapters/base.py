@@ -4,7 +4,7 @@ from typing import Any, Callable, Dict, Optional
 from ..data_types import AlgorithmParameter, ExecutionType
 
 
-class Adapter(ABC):
+class DockerAdapter(ABC):
     """
     The base class for all adapters. An adapter is a wrapper around an anomaly detection algorithm that allows to
     execute it in a standardized way with the TimeEval framework. A subclass of Adapter must implement the _call method

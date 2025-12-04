@@ -10,7 +10,7 @@ from .params import ParameterConfig
 if TYPE_CHECKING:
     from typing import Any, Callable, Dict, Optional
 
-    from .adapters.base import Adapter
+    from .adapters.base import DockerAdapter
     from .data_types import AlgorithmParameter, TSFunction, TSFunctionPost
 
 
@@ -69,7 +69,7 @@ class Algorithm:
     """
 
     name: str
-    main: Adapter
+    main: DockerAdapter
     preprocess: Optional[TSFunction] = None
     postprocess: Optional[TSFunctionPost] = None
     data_as_file: bool = False

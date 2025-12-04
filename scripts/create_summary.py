@@ -20,7 +20,7 @@ from timeeval.constants import (
 from timeeval.data_types import ExecutionType
 from timeeval._core.experiments import Experiment as TimeEvalExperiment
 from timeeval.heuristics import inject_heuristic_values
-from timeeval.utils.datasets import load_labels_only
+from timeeval.utils.datasets import load_labels_only, load_dimensional_labels_only
 from timeeval_experiments.algorithm_configurator import AlgorithmConfigurator
 
 # required to build a lookup-table for algorithm implementations
@@ -371,6 +371,8 @@ class ResultSummary:
             )
 
         y_true = load_labels_only(dataset_path)
+        y_true_per_dimension = load_dimensional_labels_only(dataset_path)
+        print('Loading labels for each dimension...', y_true_per_dimension.shape)
         y_true, y_scores = TimeEvalExperiment.scale_scores(y_true, y_scores)
 
         if not (exp.path / ANOMALY_SCORES_TS).exists():

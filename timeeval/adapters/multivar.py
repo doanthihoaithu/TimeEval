@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from ..data_types import AlgorithmParameter
-from .base import Adapter
+from .base import DockerAdapter
 
 
 class AggregationMethod(Enum):
@@ -48,7 +48,7 @@ class AggregationMethod(Enum):
         return self == self.SUM_BEFORE
 
 
-class MultivarAdapter(Adapter):
+class MultivarAdapter(DockerAdapter):
     """
     An adapter that allows to apply univariate anomaly detectors to multiple dimensions of a timeseries.
     In one case, the adapter runs the anomaly detector on each dimension separately and aggregates the results using the specified aggregation method.
@@ -57,7 +57,7 @@ class MultivarAdapter(Adapter):
     Parameters
     ----------
 
-    adapter : Adapter
+    adapter : DockerAdapter
         The :class:`~timeeval.adapters.Adapter` that runs the anomaly detector on each dimension.
 
     aggregation : AggregationMethod
@@ -65,7 +65,7 @@ class MultivarAdapter(Adapter):
     """
 
     def __init__(
-        self, adapter: Adapter, aggregation: AggregationMethod = AggregationMethod.MEAN
+        self, adapter: DockerAdapter, aggregation: AggregationMethod = AggregationMethod.MEAN
     ) -> None:
         assert not isinstance(adapter, MultivarAdapter), "Cannot nest MultivarAdapters"
 

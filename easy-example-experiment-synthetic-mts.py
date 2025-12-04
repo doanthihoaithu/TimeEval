@@ -15,8 +15,9 @@ from timeeval import (
     TrainingType,
 )
 from timeeval.adapters import FunctionAdapter  # for defining customized algorithm
-from timeeval.algorithms import cof, hbos, lof, cblof, random_black_forest, copod, torsk, autoencoder, dae, pcc
+from timeeval.algorithms import cof, hbos, lof, cblof, random_black_forest, copod, torsk, autoencoder, dae, pcc, hbos_with_interpretability
 from timeeval.data_types import AlgorithmParameter
+from timeeval.metrics import RangePrVUS, RangeRocVUS
 from timeeval.params import FixedParameters
 
 
@@ -38,13 +39,15 @@ def main(cfg: DictConfig) -> None:
     algorithms = [
         # list of algorithms which will be executed on the selected dataset(s)
 
-        # cblof(params=FixedParameters({"random_state": 42})),
-        # cof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
-        # lof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
-        hbos(params=FixedParameters({"n_bin": 10, "random_state": 42, 'anomalyScorePerVarOutput': 'ranking.csv'})),
-        # copod(params=FixedParameters({'random_state': 42})),
+        cblof(params=FixedParameters({"random_state": 42})),
+        cof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        lof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        hbos(params=FixedParameters({"n_bin": 10, "random_state": 42})),
+        hbos_with_interpretability(params=FixedParameters({"n_bin": 10, "random_state": 42})),
+        copod(params=FixedParameters({'random_state': 42})),
         # torsk(params=FixedParameters({'random_state': 42})),
-        # pcc(params=FixedParameters({'random_state': 42})),
+        pcc(params=FixedParameters({'random_state': 42})),
+
 
         # autoencoder(params=FixedParameters({'random_state': 42})),
         # dae(params=FixedParameters({'random_state': 42})),
@@ -66,7 +69,7 @@ def main(cfg: DictConfig) -> None:
         dm,
         datasets,
         algorithms,
-        metrics=[DefaultMetrics.ROC_AUC, DefaultMetrics.RANGE_PR_AUC, DefaultMetrics.PR_AUC],
+        metrics=[DefaultMetrics.ROC_AUC, DefaultMetrics.RANGE_PR_AUC, DefaultMetrics.PR_AUC, RangePrVUS(max_buffer_size=100), RangeRocVUS(max_buffer_size=100)],
     )
     timeeval.run()
     results = timeeval.get_results(aggregated=False)

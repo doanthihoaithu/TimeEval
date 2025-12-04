@@ -5,7 +5,7 @@ from durations import Duration
 from typing import Any, Dict, Optional
 
 from timeeval import Algorithm, TrainingType, InputDimensionality
-from timeeval.adapters import DockerAdapter
+from timeeval.adapters import InterpretabilityAdapter, DockerAdapter
 from timeeval.params import ParameterConfig
 
 
@@ -71,14 +71,24 @@ def hbos_with_interpretability(params: Optional[ParameterConfig] = None, skip_pu
         A correctly configured :class:`~timeeval.Algorithm` object for the HBOS algorithm.
     """
     return Algorithm(
-        name="HBOS",
-        main=DockerAdapter(
-            image_name="thudth/hbos_interpretability",
-            # tag="lastest",
-            skip_pull=skip_pull,
-            timeout=timeout,
-            # group_privileges="akita",
+        name="HBOS_Interpretability",
+        main=InterpretabilityAdapter(
+            DockerAdapter(
+                    image_name="thudth/hbos_interpretability",
+                    # tag="lastest",
+                    skip_pull=skip_pull,
+                    timeout=timeout,
+                    # group_privileges="akita",
+                ),
+            top_k=1
         ),
+        # main=DockerAdapter(
+        #     image_name="thudth/hbos_interpretability",
+        #     # tag="lastest",
+        #     skip_pull=skip_pull,
+        #     timeout=timeout,
+        #     # group_privileges="akita",
+        # ),
         preprocess=None,
         postprocess=None,
         param_schema=_hbos_parameters,

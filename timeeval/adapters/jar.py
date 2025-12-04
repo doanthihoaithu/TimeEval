@@ -4,10 +4,10 @@ from typing import Any, Dict, List
 import numpy as np
 
 from ..data_types import AlgorithmParameter
-from .base import Adapter
+from .base import DockerAdapter
 
 
-class JarAdapter(Adapter):
+class JarAdapter(DockerAdapter):
     """
     An adapter that allows to run a jar file as an anomaly detector.
 

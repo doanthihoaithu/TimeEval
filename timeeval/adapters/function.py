@@ -1,10 +1,10 @@
 from typing import Any, Dict
 
 from ..data_types import AlgorithmParameter, TSFunction
-from .base import Adapter
+from .base import DockerAdapter
 
 
-class FunctionAdapter(Adapter):
+class FunctionAdapter(DockerAdapter):
     """
     An adapter that allows to run a function as an anomaly detector.
 

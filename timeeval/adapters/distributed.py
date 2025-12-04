@@ -4,10 +4,10 @@ import subprocess
 from typing import Any, Dict, List
 
 from ..data_types import AlgorithmParameter, TSFunction
-from .base import Adapter
+from .base import DockerAdapter
 
 
-class DistributedAdapter(Adapter):
+class DistributedAdapter(DockerAdapter):
     """
     An adapter that allows to run a function as an anomaly detector on multiple remote machines. So far, this adapter
     only supports TSFunctions as algorithms.

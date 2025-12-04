@@ -9,6 +9,7 @@ from typing import Any, Callable, Dict, Optional, Tuple
 
 import docker
 import numpy as np
+import pandas as pd
 import requests
 from docker.errors import APIError, DockerException, ImageNotFound
 from docker.models.containers import Container
@@ -18,11 +19,14 @@ from numpyencoder import NumpyEncoder
 from ..data_types import ExecutionType
 from ..resource_constraints import GB, ResourceConstraints
 from ..utils.exceptions import exc_causes
-from .base import Adapter, AlgorithmParameter
+from .base import DockerAdapter, AlgorithmParameter
 
 DATASET_TARGET_PATH = PurePosixPath("/data")
 RESULTS_TARGET_PATH = PurePosixPath("/results")
 SCORES_FILE_NAME = "docker-algorithm-scores.csv"
+SCORES_PER_VAR_FILE_NAME = "docker-algorithm-scores-per-var.csv"
+SCORES_PER_VAR_RANKING_FILE_NAME = "docker-algorithm-scores-per-var-ranking.csv"
+MULTIVARIATE_LABEL_FILE_NAME = "docker-algorithm-multivariate-labels.csv"
 MODEL_FILE_NAME = "model.pkl"
 
 
@@ -65,7 +69,7 @@ class AlgorithmInterface:
         return json.dumps(dictionary, cls=DockerJSONEncoder)
 
 
-class DockerAdapter(Adapter):
+class DockerAdapter(DockerAdapter):
     """
     An adapter that allows to run a Docker image as an anomaly detector.
     You can find a list of available Docker images on `GitHub <https://github.com/TimeEval/TimeEval-algorithms>`_.
@@ -329,6 +333,25 @@ class DockerAdapter(Adapter):
             self._results_path(args) / SCORES_FILE_NAME, delimiter=","
         )
         return results
+
+    def _read_results_per_var(self, args: Dict[str, Any]) -> np.ndarray:
+        results_per_var_path = self._results_path(args) / SCORES_PER_VAR_FILE_NAME
+        if os.path.exists(results_per_var_path):
+            results: np.ndarray = np.genfromtxt(
+                results_per_var_path, delimiter=","
+            )
+            return results
+        else:
+            print(f'anomaly scores per dimension is not existed at {results_per_var_path}')
+
+    def _read_multivariate_labels(self, args: Dict[str, Any]) -> np.ndarray:
+        multivariate_label_path = self._results_path(args) / MULTIVARIATE_LABEL_FILE_NAME
+        if os.path.exists(multivariate_label_path):
+            results: np.ndarray = pd.read_csv(multivariate_label_path, index_col=0).values
+            return results
+        else:
+            print(f'multivariate labels is not existed at {multivariate_label_path}')
+
 
     # Adapter overwrites
 

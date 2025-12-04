@@ -85,6 +85,7 @@ from typing import List
 from .auc_metrics import AucMetric, PrAUC, RocAUC
 from .classification_metrics import F1Score, Precision, Recall
 from .metric import Metric
+from .interpretability_metrics import InterpretabilityScore
 from .other_metrics import AveragePrecision, FScoreAtK, PrecisionAtK
 from .range_metrics import (
     RangeFScore,
