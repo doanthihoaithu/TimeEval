@@ -15,7 +15,12 @@ from timeeval import (
     TrainingType,
 )
 from timeeval.adapters import FunctionAdapter  # for defining customized algorithm
-from timeeval.algorithms import cof, hbos, lof, cblof, random_black_forest, copod, torsk, autoencoder, dae, pcc, hbos_with_interpretability
+from timeeval.algorithms import (cof, hbos, lof, cblof, random_black_forest, copod, torsk, autoencoder, dae, pcc,
+                                 hbos_with_interpretability, cblof_with_interpretability, lof_with_interpretability,
+                                    pcc_with_interpretability,copod_with_interpretability, cof_with_interpretability,
+                                 random_black_forest_with_interpretability, dae_with_interpretability,
+                                 autoencoder_with_interpretability)
+
 from timeeval.data_types import AlgorithmParameter
 from timeeval.metrics import RangePrVUS, RangeRocVUS
 from timeeval.params import FixedParameters
@@ -39,20 +44,29 @@ def main(cfg: DictConfig) -> None:
     algorithms = [
         # list of algorithms which will be executed on the selected dataset(s)
 
-        cblof(params=FixedParameters({"random_state": 42})),
-        cof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
-        lof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
-        hbos(params=FixedParameters({"n_bin": 10, "random_state": 42})),
-        hbos_with_interpretability(params=FixedParameters({"n_bin": 10, "random_state": 42})),
-        copod(params=FixedParameters({'random_state': 42})),
+        # cblof(params=FixedParameters({"random_state": 42})),
+        # cof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        # lof(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        # hbos(params=FixedParameters({"n_bin": 10, "random_state": 42})),
+        # copod(params=FixedParameters({'random_state': 42})),
+        # pcc(params=FixedParameters({'random_state': 42})),
         # torsk(params=FixedParameters({'random_state': 42})),
-        pcc(params=FixedParameters({'random_state': 42})),
-
 
         # autoencoder(params=FixedParameters({'random_state': 42})),
         # dae(params=FixedParameters({'random_state': 42})),
         # random_black_forest(params=FixedParameters({'train_window_size': 24, 'random_state': 42})),
 
+        cblof_with_interpretability(params=FixedParameters({"random_state": 42})),
+        cof_with_interpretability(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        lof_with_interpretability(params=FixedParameters({"n_neighbors": 20, "random_state": 42})),
+        hbos_with_interpretability(params=FixedParameters({"n_bin": 10, "random_state": 42})),
+        copod_with_interpretability(params=FixedParameters({'random_state': 42})),
+        pcc_with_interpretability(params=FixedParameters({'random_state': 42})),
+        # torsk_with_interpretability(params=FixedParameters({'random_state': 42})),
+
+        autoencoder_with_interpretability(params=FixedParameters({'random_state': 42})),
+        dae_with_interpretability(params=FixedParameters({'random_state': 42})),
+        random_black_forest_with_interpretability(params=FixedParameters({'train_window_size': 24, 'random_state': 42})),
 
 
         # calling customized algorithm

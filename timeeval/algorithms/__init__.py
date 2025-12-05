@@ -28,7 +28,6 @@ from .generic_xgb import generic_xgb
 from .grammarviz3 import grammarviz3
 from .grammarviz3_multi import grammarviz3_multi
 from .hbos import hbos
-from .hbos_with_interpretability import hbos_with_interpretability
 from .health_esn import health_esn
 from .hif import hif
 from .hotsax import hotsax
@@ -83,3 +82,17 @@ from .torsk import torsk
 from .triple_es import triple_es
 from .ts_bitmap import ts_bitmap
 from .valmod import valmod
+
+from .cblof_with_interpretability import cblof_with_interpretability
+from .cof_with_interpretability import cof_with_interpretability
+from .lof_with_interpretability import lof_with_interpretability
+
+from .hbos_with_interpretability import hbos_with_interpretability
+from .copod_with_interpretability import copod_with_interpretability
+from .random_black_forest_with_interpretability import random_black_forest_with_interpretability
+
+from .pcc_with_interpretability import pcc_with_interpretability
+from .torsk_with_interpretability import torsk_with_interpretability
+from .dae_with_interpretability import dae_with_interpretability
+from .autoencoder_with_interpretability import autoencoder_with_interpretability
+
