@@ -42,10 +42,20 @@ class InterpretabilityAdapter(DockerAdapter):
             if multivariate_labels is not None:
                 print("multivariate labels. shape", multivariate_labels.shape)
 
-            multivariate_labels = multivariate_labels + 1
-            multivariate_labels = multivariate_labels/multivariate_labels.sum(axis=1,  keepdims=True)
-            anomaly_scores_per_var = anomaly_scores_per_var/anomaly_scores_per_var.sum(axis=1,  keepdims=True)
-            interpretability_scores = np.sqrt(np.power(multivariate_labels-anomaly_scores_per_var,2).sum(axis=1))
+            # multivariate_labels = multivariate_labels + 1
+            # multivariate_labels = multivariate_labels/multivariate_labels.sum(axis=1,  keepdims=True)
+            # anomaly_scores_per_var = anomaly_scores_per_var/anomaly_scores_per_var.sum(axis=1,  keepdims=True)
+            anomaly_scores_per_var_ranking = np.argsort(anomaly_scores_per_var, axis=1)
+            top_1_anomalous_dimension = anomaly_scores_per_var_ranking[:, -self.top_k:]
+            interpretability_list = []
+            for labels, top_1_index in zip(multivariate_labels, top_1_anomalous_dimension):
+                if labels.sum() != 0.0:
+                    interpretability = labels[top_1_index].sum()/labels.sum()
+                    interpretability_list.append(interpretability)
+                else:
+                    interpretability_list.append(0.0)
+            # interpretability_scores = np.sqrt(np.power(multivariate_labels-anomaly_scores_per_var,2).sum(axis=1))
+            interpretability_scores = np.array(interpretability_list)
             return interpretability_scores
 
             # anomaly_scores_per_var_df = pd.read_csv(anomaly_scores_per_var_path)

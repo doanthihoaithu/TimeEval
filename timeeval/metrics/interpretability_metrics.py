@@ -3,9 +3,10 @@ from typing import Optional
 
 import numpy as np
 from sklearn.metrics import auc, roc_curve
+from timeeval.metrics import Metric
 
 
-class InterpretabilityScore(ABC):
+class InterpretabilityScore(Metric):
     """Takes an anomaly scoring and ground truth labels to compute and apply a threshold to the scoring.
 
     Subclasses of this abstract base class define different strategies to put a threshold over the anomaly scorings.
@@ -19,8 +20,14 @@ class InterpretabilityScore(ABC):
         self.topk: Optional[int] = topk
 
     def score(self, y_true: np.ndarray, y_score: np.ndarray) -> None:
-        assert y_true.ndim == 2
-        assert y_score.ndim == 2
-        fpr, tpr, thresholds = roc_curve(y_true.reshape(-1), y_score.reshape(-1))
-        result = auc(fpr, tpr)
-        return result
+        # assert y_true.ndim == 2
+        # assert y_score.ndim == 2
+        # fpr, tpr, thresholds = roc_curve(y_true.reshape(-1), y_score.reshape(-1))
+        # result = auc(fpr, tpr)
+        return y_score[y_true == 1.0].mean()
+
+    def supports_continuous_scorings(self) -> bool:
+        return True
+    @property
+    def name(self) -> str:
+        return f'InterpretabilityScore_hit_{self.topk}'
